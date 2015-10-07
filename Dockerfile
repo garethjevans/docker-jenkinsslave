@@ -12,8 +12,12 @@ RUN wget http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-di
     mv sonar-runner-${SONAR_VERSION} /opt/sonar-runner && \
     chown -R jenkins:jenkins /opt/sonar-runner
 
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
 COPY swarm/slave.sh /home/jenkins/slave.sh
 RUN chmod +x /home/jenkins/slave.sh
 
 ENTRYPOINT ["/home/jenkins/slave.sh"]
-
