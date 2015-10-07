@@ -9,5 +9,6 @@ java -jar /usr/share/jenkins/swarm-client-jar-with-dependencies.jar \
     -password ${JENKINS_PASSWORD:?"Need to set JENKINS_PASSWORD"} \
     -executors ${JENKINS_EXECUTORS:-8} \
     -tunnel :${JENKINS_PORT:-50000} \
-    -description "${JENKINS_DESCRIPTION:-"Swarm Slave"}"
+    -description "${JENKINS_DESCRIPTION:-"Swarm Slave"}" \
+    -labels "${JENKINS_LABELS:-"swarm"}"
 
