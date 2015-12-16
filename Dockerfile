@@ -42,7 +42,4 @@ ENV LC_ALL en_US.UTF-8
 COPY swarm/slave.sh /home/jenkins/slave.sh
 RUN chmod +x /home/jenkins/slave.sh
 
-USER jenkins
-WORKDIR /home/jenkins
-
 ENTRYPOINT ["/home/jenkins/slave.sh"]
