@@ -6,8 +6,9 @@ RUN apt-get update
 RUN apt-get -y upgrade
 
 # Install JDK 8 (latest edition)
-RUN apt-get install -y openjdk-8-jdk git curl wget unzip graphviz build-essential
-RUN apt-get install --reinstall ca-certificates-java
+RUN apt-get install -y openjdk-8-jdk git curl wget unzip graphviz build-essential && \
+    dpkg --purge --force-depends ca-certificates-java && \
+	apt-get install -y ca-certificates-java
 
 # Add user jenkins to the image
 RUN useradd -ms /bin/bash jenkins
