@@ -5,24 +5,15 @@ MAINTAINER Gareth Evans <gareth@bryncynfelin.co.uk>
 RUN apt-get update
 RUN apt-get -y upgrade
 
-# Install a basic SSH server
-#RUN apt-get install -y openssh-server
-#RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
-#RUN mkdir -p /var/run/sshd
-
-# Install JDK 7 (latest edition)
+# Install JDK 8 (latest edition)
 RUN apt-get install -y openjdk-8-jdk git curl wget unzip graphviz build-essential
+RUN apt-get install --reinstall ca-certificates-java
 
 # Add user jenkins to the image
 RUN useradd -ms /bin/bash jenkins
 
 # Set password for the jenkins user (you may want to alter this).
 RUN echo "jenkins:jenkins" | chpasswd
-
-# Standard SSH port
-#EXPOSE 22
-
-#CMD ["/usr/sbin/sshd", "-D"]
 
 ENV JENKINS_SWARM_VERSION 2.0
 RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-jar-with-dependencies.jar http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar && \
