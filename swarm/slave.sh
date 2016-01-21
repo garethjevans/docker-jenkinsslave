@@ -10,5 +10,6 @@ java -jar /usr/share/jenkins/swarm-client-jar-with-dependencies.jar \
     -executors ${JENKINS_EXECUTORS:-8} \
     -tunnel :${JENKINS_PORT:-50000} \
     -description "${JENKINS_DESCRIPTION:-"Swarm Slave"}" \
-    -labels "${JENKINS_LABELS:-"swarm"}"
+    -labels "${JENKINS_LABELS:-"swarm"}" \
+    -mode :${JENKINS_MODE:-"normal"}
 
