@@ -4,6 +4,7 @@ echo "Connecting to master ${JENKINS_MASTER}"
 
 java -jar /usr/share/jenkins/swarm-client-jar-with-dependencies.jar \
     -disableSslVerification \
+    -deleteExistingClients \
     -fsroot /home/jenkins \
     -master ${JENKINS_MASTER:?"Need to set JENKINS_MASTER"} \
     -username ${JENKINS_USERNAME:?"Need to set JENKINS_USERNAME"} \
