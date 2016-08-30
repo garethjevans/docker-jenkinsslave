@@ -17,7 +17,7 @@ RUN useradd -ms /bin/bash jenkins
 RUN echo "jenkins:jenkins" | chpasswd
 
 ENV JENKINS_SWARM_VERSION 2.2
-RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-jar-with-dependencies.jar http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar && \
+RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-jar-with-dependencies.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar && \
     chmod 755 /usr/share/jenkins
 
 ENV SONAR_VERSION 2.4 
