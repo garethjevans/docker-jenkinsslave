@@ -1,32 +1,35 @@
-FROM ubuntu:wily
-MAINTAINER Gareth Evans <gareth@bryncynfelin.co.uk>
+FROM openjdk:8-jdk-alpine
 
-# Make sure the package repository is up to date.
-RUN apt-get update
-RUN apt-get -y upgrade
+RUN apk add --no-cache git openssh-client wget curl unzip bash ttf-dejavu coreutils
 
-# Install JDK 8 (latest edition)
-RUN apt-get install -y openjdk-8-jdk git curl wget unzip graphviz build-essential && \
-    dpkg --purge --force-depends ca-certificates-java && \
-	apt-get install -y ca-certificates-java
+ENV JENKINS_HOME /var/jenkins_home
+ENV JENKINS_SLAVE_AGENT_PORT 50000
 
-# Add user jenkins to the image
-RUN useradd -ms /bin/bash jenkins
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=1000
+ARG gid=1000
 
-# Set password for the jenkins user (you may want to alter this).
-RUN echo "jenkins:jenkins" | chpasswd
+# Jenkins is run with user `jenkins`, uid = 1000
+# If you bind mount a volume from the host or a data container, 
+# ensure you use the same uid
+RUN addgroup -g ${gid} ${group} \
+    && adduser -h "$JENKINS_HOME" -u ${uid} -G ${group} -s /bin/bash -D ${user}
 
-ENV JENKINS_SWARM_VERSION 2.2
+ENV JENKINS_SWARM_VERSION 3.3
 RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-jar-with-dependencies.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar && \
     chmod 755 /usr/share/jenkins
 
-ENV SONAR_VERSION 2.4 
-RUN wget http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/${SONAR_VERSION}/sonar-runner-dist-${SONAR_VERSION}.zip && \
-    unzip sonar-runner-dist-${SONAR_VERSION}.zip && \
-    mv sonar-runner-${SONAR_VERSION} /opt/sonar-runner && \
-    chown -R jenkins:jenkins /opt/sonar-runner
+RUN mkdir /opt
 
-RUN locale-gen en_US.UTF-8
+ENV SONAR_VERSION 2.8
+RUN wget --quiet https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-${SONAR_VERSION}.zip && \
+	unzip sonar-scanner-${SONAR_VERSION}.zip && \
+	mv sonar-scanner-${SONAR_VERSION} /opt/sonar-scanner && \
+	chown -R jenkins:jenkins /opt/sonar-scanner
+
+
+# RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
