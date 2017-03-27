@@ -14,7 +14,7 @@ ARG gid=1000
 # If you bind mount a volume from the host or a data container, 
 # ensure you use the same uid
 RUN addgroup -g ${gid} ${group} \
-    && adduser -h "$JENKINS_HOME" -u ${uid} -G ${group} -s /bin/bash -D ${user}
+    && adduser -h /home/jenkins -u ${uid} -G ${group} -s /bin/bash -D ${user}
 
 ENV JENKINS_SWARM_VERSION 3.3
 RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${JENKINS_SWARM_VERSION}/swarm-client-${JENKINS_SWARM_VERSION}.jar && \
