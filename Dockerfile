@@ -17,17 +17,10 @@ RUN addgroup -g ${gid} ${group} \
     && adduser -h "$JENKINS_HOME" -u ${uid} -G ${group} -s /bin/bash -D ${user}
 
 ENV JENKINS_SWARM_VERSION 3.3
-RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client-jar-with-dependencies.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar && \
+RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${JENKINS_SWARM_VERSION}/swarm-client-${JENKINS_SWARM_VERSION}.jar && \
     chmod 755 /usr/share/jenkins
 
 RUN mkdir /opt
-
-ENV SONAR_VERSION 2.8
-RUN wget --quiet https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-${SONAR_VERSION}.zip && \
-	unzip sonar-scanner-${SONAR_VERSION}.zip && \
-	mv sonar-scanner-${SONAR_VERSION} /opt/sonar-scanner && \
-	chown -R jenkins:jenkins /opt/sonar-scanner
-
 
 # RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8

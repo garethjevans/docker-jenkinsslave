@@ -2,7 +2,7 @@
 
 echo "Connecting to master ${JENKINS_MASTER}"
 
-java -jar /usr/share/jenkins/swarm-client-jar-with-dependencies.jar \
+java -jar /usr/share/jenkins/swarm-client.jar \
     -disableSslVerification \
     -deleteExistingClients \
     -fsroot /home/jenkins \
