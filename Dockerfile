@@ -16,8 +16,8 @@ ARG gid=1000
 RUN addgroup -g ${gid} ${group} \
     && adduser -h /home/jenkins -u ${uid} -G ${group} -s /bin/bash -D ${user}
 
-ENV JENKINS_SWARM_VERSION 2.2
-RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${JENKINS_SWARM_VERSION}/swarm-client-${JENKINS_SWARM_VERSION}-jar-with-dependencies.jar && \
+ENV JENKINS_SWARM_VERSION 3.6
+RUN curl --create-dirs -sSLo /usr/share/jenkins/swarm-client.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${JENKINS_SWARM_VERSION}/swarm-client-${JENKINS_SWARM_VERSION}.jar && \
     chmod 755 /usr/share/jenkins
 
 RUN mkdir /opt
